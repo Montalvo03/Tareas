@@ -1,24 +1,34 @@
-// Home page script
-const addToCartButtons = document.querySelectorAll('.home-product-info button');
+function agregarTarea() {
+    var entradaTarea = document.getElementById("entradaTarea");
+    var fechaLimiteTarea = document.getElementById("fechaLimiteTarea");
+    var listaTareas = document.getElementById("listaTareas");
 
-addToCartButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        // Add to cart logic here
+    if (entradaTarea.value === "" || fechaLimiteTarea.value === "") {
+        alert("Por favor ingresa una tarea y una fecha límite.");
+        return;
+    }
+
+    var tarea = document.createElement("li");
+    tarea.textContent = entradaTarea.value + " - " + fechaLimiteTarea.value;
+    tarea.className = "task-item";
+
+    var checkbox = document.createElement("span");
+    checkbox.className = "complete-checkbox";
+    checkbox.addEventListener("click", function(event) {
+        tarea.classList.toggle("completed");
+        checkbox.classList.toggle("checked");
+        if (tarea.classList.contains("completed")) {
+            var tareaCompletada = document.createElement("li");
+            tareaCompletada.textContent = tarea.textContent;
+            document.getElementById("listaTareasCompletadas").appendChild(tareaCompletada);
+            listaTareas.removeChild(tarea);
+        }
     });
-});
 
-// Contact form script
-const contactForm = document.querySelector('.contact-form');
+    tarea.appendChild(checkbox);
 
-contactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+    listaTareas.appendChild(tarea);
 
-    // Validate form fields here
-
-    // Send form data to server here
-});
-
-// PayPal payment script
-function payWithPayPal() {
-    // PayPal payment logic here
+    entradaTarea.value = "";
+    fechaLimiteTarea.value = "";
 }
